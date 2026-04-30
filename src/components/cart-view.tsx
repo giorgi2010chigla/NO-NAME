@@ -1,8 +1,9 @@
 "use client"
 
 import { useCart } from "@/lib/cart"
-import { Button } from "@/components/ui/button"
+import { MotionButton } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
+import { motion } from "framer-motion"
 
 export function Cart() {
   const { items, removeItem, updateQuantity, total, clearCart, setIsOpen } = useCart()
@@ -25,33 +26,47 @@ export function Cart() {
         ) : (
           <div className="space-y-4">
             {items.map((item) => (
-              <div key={item.id} className="flex gap-4">
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="flex gap-4"
+              >
                 <div className="flex-1">
                   <h3 className="font-bold uppercase tracking-widest text-xs">{item.name}</h3>
                   <p className="text-sm text-white/60 font-mono tracking-tighter">${item.price.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
+                  <motion.button
                     onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
                     className="w-8 h-8 border hover:bg-accent"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
                   >
                     -
-                  </button>
+                  </motion.button>
                   <span className="w-4 text-center font-bold">{item.quantity}</span>
-                  <button
+                  <motion.button
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
                     className="w-8 h-8 border hover:bg-accent"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
                   >
                     +
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     onClick={() => removeItem(item.id)}
                     className="text-white/40 hover:text-white uppercase text-[10px] tracking-widest ml-2"
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.15 }}
                   >
                     Remove
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -61,13 +76,16 @@ export function Cart() {
           <span className="text-white/60">Subtotal</span>
           <span className="font-bold text-xl">${total.toFixed(2)}</span>
         </div>
-        <Button 
+        <MotionButton
           onClick={handleCheckout}
           className="w-full py-8 text-lg font-bold uppercase tracking-[0.2em]" 
           disabled={items.length === 0}
+          whileHover={items.length > 0 ? { scale: 1.02 } : {}}
+          whileTap={items.length > 0 ? { scale: 0.98 } : {}}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
           Proceed to checkout
-        </Button>
+        </MotionButton>
       </div>
     </div>
   )

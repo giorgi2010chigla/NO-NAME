@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useCart } from "@/lib/cart"
-import { Button } from "@/components/ui/button"
+import { Button, MotionButton } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { useToast } from "@/hooks/use-toast"
 import { getAssetPath } from "@/lib/utils"
@@ -25,6 +25,8 @@ const products = [
   { id: 15, name: "Ribbed Tank", price: 65, category: "tops", img: "/da594d43.jpg" },
 ]
 
+const filterCategories = ['All', 'Tops', 'Outerwear', 'Accessories', 'Footwear']
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -42,6 +44,18 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.5,
+      ease: [0.16, 1, 0.3, 1]
+    }
+  }
+}
+
+const filterVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
       ease: [0.16, 1, 0.3, 1]
     }
   }
@@ -127,17 +141,31 @@ export default function Shop() {
             transition={{ duration: 1, delay: 0.5 }}
             className="flex gap-8 text-[10px] uppercase tracking-[0.3em] font-medium border-b border-white/10 pb-4 w-full md:w-auto overflow-x-auto whitespace-nowrap"
           >
-            {['All', 'Tops', 'Outerwear', 'Accessories', 'Footwear'].map((cat) => (
-              <button 
-                key={cat} 
-                onClick={() => setActiveCategory(cat.toLowerCase())}
-                className={`hover:text-white transition-colors cursor-pointer ${
-                  activeCategory === cat.toLowerCase() ? "text-white" : "text-white/40"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+            <AnimatePresence mode="wait">
+              {filterCategories.map((cat) => (
+                <motion.button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat.toLowerCase())}
+                  className={`cursor-pointer relative ${
+                    activeCategory === cat.toLowerCase() ? "text-white" : "text-white/40"
+                  }`}
+                  variants={filterVariants}
+                  initial="hidden"
+                  animate="visible"
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {cat}
+                  {activeCategory === cat.toLowerCase() && (
+                    <motion.div
+                      layoutId="activeFilter"
+                      className="absolute -bottom-[calc(1rem+1px)] left-0 right-0 h-px bg-white"
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  )}
+                </motion.button>
+              ))}
+            </AnimatePresence>
           </motion.div>
         </header>
 
@@ -175,12 +203,12 @@ export default function Shop() {
                   
                   <div className="space-y-6">
                     <p className="text-xl tracking-widest">${product.price}</p>
-                    <Button 
+                    <MotionButton
                       onClick={() => handleAddToCart(product)}
                       className="w-full bg-white text-black hover:bg-black hover:text-white border-white transition-all py-8"
                     >
                       ADD TO CART
-                    </Button>
+                    </MotionButton>
                   </div>
                 </div>
 
