@@ -7,7 +7,7 @@ import { motion } from "framer-motion"
 
 export function Nav() {
   const [location] = useLocation()
-  const { itemCount, setIsOpen } = useCart()
+  const { itemCount } = useCart()
 
   const navItemVariants = {
     initial: { opacity: 0.6 },

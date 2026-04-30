@@ -6,25 +6,8 @@ import { Button, MotionButton } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { useToast } from "@/hooks/use-toast"
 import { getAssetPath } from "@/lib/utils"
-import { useLocation } from "wouter"
-
-const products = [
-  { id: 1, name: "Heavy Knit Sweater", price: 240, category: "tops", img: "/product-knit-1.png" },
-  { id: 2, name: "Industrial Denim", price: 180, category: "outerwear", img: "/product-denim-1.png" },
-  { id: 3, name: "Structured Belt", price: 95, category: "accessories", img: "/product-acc-1.png" },
-  { id: 4, name: "Brutalist Boot", price: 320, category: "footwear", img: "/product-shoe-1.png" },
-  { id: 5, name: "Sculptural Knit", price: 210, category: "tops", img: "/product-knit-2.png" },
-  { id: 6, name: "Oversized Shell", price: 450, category: "outerwear", img: "/product-coat-1.png" },
-  { id: 7, name: "Cast Silver Ring", price: 120, category: "accessories", img: "/product-acc-2.png" },
-  { id: 8, name: "Modular Shoe", price: 280, category: "footwear", img: "/product-shoe-2.png" },
-  { id: 9, name: "Raw Denim", price: 195, category: "outerwear", img: "/product-denim-2.png" },
-  { id: 10, name: "Utility Jacket", price: 380, category: "outerwear", img: "/product-jacket-1.png" },
-  { id: 11, name: "Mono Tee", price: 85, category: "tops", img: "/0c2393bf.jpg" },
-  { id: 12, name: "Technical Parka", price: 520, category: "outerwear", img: "/0f632715.jpg" },
-  { id: 13, name: "Leather Pouch", price: 145, category: "accessories", img: "/46aba1cd.jpg" },
-  { id: 14, name: "Desert Runner", price: 310, category: "footwear", img: "/7e0262a3.jpg" },
-  { id: 15, name: "Ribbed Tank", price: 65, category: "tops", img: "/da594d43.jpg" },
-]
+import { useLocation, Link } from "wouter"
+import { products } from "@/lib/products"
 
 const filterCategories = ['All', 'Tops', 'Outerwear', 'Accessories', 'Footwear']
 
@@ -217,14 +200,22 @@ export default function Shop() {
                     <h3 className="text-2xl font-bold uppercase tracking-tighter leading-none">{product.name}</h3>
                   </div>
                   
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <p className="text-xl tracking-widest">${product.price}</p>
                     <MotionButton
                       onClick={() => handleAddToCart(product)}
-                      className="w-full bg-white text-black hover:bg-black hover:text-white border-white transition-all py-8"
+                      className="w-full bg-white text-black hover:bg-black hover:text-white border-white transition-all py-6"
                     >
                       ADD TO CART
                     </MotionButton>
+                    <Link href={`/product/${product.id}`} className="w-full block">
+                      <MotionButton
+                        variant="outline"
+                        className="w-full border-white/20 hover:border-white transition-all py-6 uppercase tracking-widest text-[10px]"
+                      >
+                        VIEW DETAILS
+                      </MotionButton>
+                    </Link>
                   </div>
                 </div>
 
