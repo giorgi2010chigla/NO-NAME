@@ -16,11 +16,11 @@ import NotFound from "@/pages/not-found"
 const queryClient = new QueryClient()
 
 function FrozenRoute({ children }: { children: ReactNode }) {
-  const [location] = useLocation()
+  const [location, setRealLocation] = useLocation()
   const [frozenLocation] = useState(location)
 
   return (
-    <WouterRouter hook={() => [frozenLocation, () => {}]}>
+    <WouterRouter hook={() => [frozenLocation, setRealLocation]}>
       {children}
     </WouterRouter>
   )
