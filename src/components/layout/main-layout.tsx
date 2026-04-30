@@ -1,6 +1,6 @@
 "use client"
 
-import { Nav } from "./nav"
+import { Nav } from "../../../nav"
 
 interface MainLayoutProps {
   children: React.ReactNode

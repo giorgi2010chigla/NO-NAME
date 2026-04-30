@@ -1,139 +1,193 @@
+"use client"
+
 import * as React from "react"
-import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
+import useEmblaCarousel, {
+  type EmblaCarouselType,
+  type EmblaOptionsType,
+} from "embla-carousel-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 
-const AlertDialog = AlertDialogPrimitive.Root
+type CarouselApi = EmblaCarouselType
+type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
+type CarouselOptions = UseCarouselParameters[0]
+type CarouselPlugin = UseCarouselParameters[1]
 
-const AlertDialogTrigger = AlertDialogPrimitive.Trigger
+type CarouselProps = {
+  opts?: CarouselOptions
+  plugins?: CarouselPlugin
+  orientation?: "horizontal" | "vertical"
+  setApi?: (api: CarouselApi) => void
+}
 
-const AlertDialogPortal = AlertDialogPrimitive.Portal
+const Carousel = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & CarouselProps
+>(({ className, opts, orientation = "horizontal", plugins, setApi, ...props }, ref) => {
+  const [carouselRef, setCarouselRef] = React.useState<CarouselApi | null>(null)
+  const [canScrollPrev, setCanScrollPrev] = React.useState(false)
+  const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-const AlertDialogOverlay = React.forwardRef<
-  React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Overlay
-    className={cn(
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-      className
-    )}
-    {...props}
-    ref={ref}
-  />
-))
-AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
+  const onInit = React.useCallback((api: CarouselApi) => {
+    if (!setApi) return
+    setApi(api)
+  }, [setApi])
 
-const AlertDialogContent = React.forwardRef<
-  React.ElementRef<typeof AlertDialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <AlertDialogPortal>
-    <AlertDialogOverlay />
-    <AlertDialogPrimitive.Content
+  const onSelect = React.useCallback((api: CarouselApi) => {
+    if (!api) return
+    setCanScrollPrev(api.canScrollPrev())
+    setCanScrollNext(api.canScrollNext())
+  }, [])
+
+  const onKeyDown = React.useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault()
+        carouselRef?.scrollPrev()
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault()
+        carouselRef?.scrollNext()
+      }
+    },
+    [carouselRef]
+  )
+
+  const scrollPrev = React.useCallback(() => {
+    carouselRef?.scrollPrev()
+  }, [carouselRef])
+
+  const scrollNext = React.useCallback(() => {
+    carouselRef?.scrollNext()
+  }, [carouselRef])
+
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault()
+        scrollPrev()
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault()
+        scrollNext()
+      }
+    },
+    [scrollPrev, scrollNext]
+  )
+
+  return (
+    <div
       ref={ref}
-      className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        className
-      )}
+      onKeyDown={handleKeyDown}
+      className={cn("relative", className)}
+      role="region"
+      aria-roledescription="carousel"
+      {...props}
+    >
+      <div
+        ref={setCarouselRef}
+        className="overflow-hidden"
+        {...(opts as React.ComponentProps<"div">)}
+      >
+        <div
+          className={cn(
+            "flex",
+            orientation === "horizontal" ? "" : "flex-col"
+          )}
+        >
+          {props.children}
+        </div>
+      </div>
+    </div>
+  )
+})
+Carousel.displayName = "Carousel"
+
+const CarouselContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <div ref={ref} className={cn("flex", className)} {...props} />
+  )
+})
+CarouselContent.displayName = "CarouselContent"
+
+const CarouselItem = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <div
+      ref={ref}
+      role="group"
+      aria-roledescription="slide"
+      className={cn("min-w-0 shrink-0 grow-0 basis-full", className)}
       {...props}
     />
-  </AlertDialogPortal>
-))
-AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
+  )
+})
+CarouselItem.displayName = "CarouselItem"
 
-const AlertDialogHeader = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col space-y-2 text-center sm:text-left",
-      className
-    )}
-    {...props}
-  />
-)
-AlertDialogHeader.displayName = "AlertDialogHeader"
+const CarouselPrevious = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<typeof Button>
+>(({ className, variant = "outline", size = "icon", ...props }, ref) => {
+  const scrollPrev = React.useCallback(() => {
+    // scrollPrev logic here
+  }, [])
 
-const AlertDialogFooter = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className
-    )}
-    {...props}
-  />
-)
-AlertDialogFooter.displayName = "AlertDialogFooter"
+  return (
+    <Button
+      ref={ref}
+      variant={variant}
+      size={size}
+      className={cn(
+        "absolute h-8 w-8 rounded-full",
+        className
+      )}
+      onClick={scrollPrev}
+      {...props}
+    >
+      <ChevronLeft className="h-4 w-4" />
+      <span className="sr-only">Previous slide</span>
+    </Button>
+  )
+})
+CarouselPrevious.displayName = "CarouselPrevious"
 
-const AlertDialogTitle = React.forwardRef<
-  React.ElementRef<typeof AlertDialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Title
-    ref={ref}
-    className={cn("text-lg font-semibold", className)}
-    {...props}
-  />
-))
-AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
+const CarouselNext = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<typeof Button>
+>(({ className, variant = "outline", size = "icon", ...props }, ref) => {
+  const scrollNext = React.useCallback(() => {
+    // scrollNext logic here
+  }, [])
 
-const AlertDialogDescription = React.forwardRef<
-  React.ElementRef<typeof AlertDialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Description
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-AlertDialogDescription.displayName =
-  AlertDialogPrimitive.Description.displayName
-
-const AlertDialogAction = React.forwardRef<
-  React.ElementRef<typeof AlertDialogPrimitive.Action>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
->(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Action
-    ref={ref}
-    className={cn(buttonVariants(), className)}
-    {...props}
-  />
-))
-AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
-
-const AlertDialogCancel = React.forwardRef<
-  React.ElementRef<typeof AlertDialogPrimitive.Cancel>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
->(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Cancel
-    ref={ref}
-    className={cn(
-      buttonVariants({ variant: "outline" }),
-      "mt-2 sm:mt-0",
-      className
-    )}
-    {...props}
-  />
-))
-AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
+  return (
+    <Button
+      ref={ref}
+      variant={variant}
+      size={size}
+      className={cn(
+        "absolute h-8 w-8 rounded-full",
+        className
+      )}
+      onClick={scrollNext}
+      {...props}
+    >
+      <ChevronRight className="h-4 w-4" />
+      <span className="sr-only">Next slide</span>
+    </Button>
+  )
+})
+CarouselNext.displayName = "CarouselNext"
 
 export {
-  AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
+  type CarouselApi,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
 }
