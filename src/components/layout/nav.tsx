@@ -48,43 +48,21 @@ export function Nav() {
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-widest uppercase">
           <NavLink href="/" active={location === '/'}>Home</NavLink>
           <NavLink href="/shop" active={location === '/shop'}>Shop</NavLink>
-          <motion.a 
-            href="#contact" 
-            initial="initial"
-            whileHover="hover"
-            className="relative cursor-pointer py-1"
-          >
-            <motion.span variants={navItemVariants} transition={{ duration: 0.2 }}>
-              Contact
-            </motion.span>
-            <motion.span
-              className="absolute -bottom-1 left-0 h-px bg-white"
-              variants={underlineVariants}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            />
-          </motion.a>
+          <NavLink href="/contact" active={location === '/contact'}>Contact</NavLink>
         </nav>
-        <motion.button
-          onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 group"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <span className="text-sm font-medium hidden sm:inline-block">CART</span>
-          <div className="relative">
-            <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
-            {itemCount > 0 && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-bold w-4 h-4 flex items-center justify-center"
-              >
-                {itemCount}
-              </motion.span>
-            )}
-          </div>
-        </motion.button>
+        <Link href="/cart">
+          <motion.button
+            className="flex items-center gap-2 group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="text-sm font-medium hidden sm:inline-block tracking-widest">CART</span>
+            <div className="relative">
+              <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+            </div>
+          </motion.button>
+        </Link>
       </div>
     </header>
   )

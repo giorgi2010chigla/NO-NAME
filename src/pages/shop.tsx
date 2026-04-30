@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useCart } from "@/lib/cart"
 import { Button, MotionButton } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { useToast } from "@/hooks/use-toast"
 import { getAssetPath } from "@/lib/utils"
+import { useLocation } from "wouter"
 
 const products = [
   { id: 1, name: "Heavy Knit Sweater", price: 240, category: "tops", img: "/product-knit-1.png" },
@@ -76,13 +77,22 @@ export default function Shop() {
   const { addItem } = useCart()
   const { toast } = useToast()
   const [activeCategory, setActiveCategory] = useState("all")
+  const [location] = useLocation()
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const category = params.get("category")
+    if (category && filterCategories.map(c => c.toLowerCase()).includes(category.toLowerCase())) {
+      setActiveCategory(category.toLowerCase())
+    }
+  }, [location])
 
   const filteredProducts = activeCategory === "all" 
     ? products 
     : products.filter(p => p.category === activeCategory.toLowerCase())
 
   const handleAddToCart = (product: typeof products[0]) => {
-    addItem({ id: product.id, name: product.name, price: product.price, quantity: 1 })
+    addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.img })
     toast({
       title: "Added to cart",
       description: `${product.name} has been added to your cart.`,

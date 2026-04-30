@@ -4,9 +4,10 @@ import { useCart } from "@/lib/cart"
 import { MotionButton } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { motion } from "framer-motion"
+import { getAssetPath } from "@/lib/utils"
 
 export function Cart() {
-  const { items, removeItem, updateQuantity, total, clearCart, setIsOpen } = useCart()
+  const { items, removeItem, updateQuantity, total, clearCart } = useCart()
   const { toast } = useToast()
 
   const handleCheckout = () => {
@@ -15,12 +16,11 @@ export function Cart() {
       description: "Thank you for your purchase. Your order is being processed.",
     })
     clearCart()
-    setIsOpen(false)
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto p-4">
+    <div className="flex flex-col">
+      <div className="p-4">
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-8">Your cart is empty</p>
         ) : (
@@ -31,8 +31,15 @@ export function Cart() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="flex gap-4"
+                className="flex gap-4 items-center"
               >
+                <div className="w-16 h-16 bg-accent overflow-hidden">
+                  <img 
+                    src={getAssetPath(item.image)} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover grayscale"
+                  />
+                </div>
                 <div className="flex-1">
                   <h3 className="font-bold uppercase tracking-widest text-xs">{item.name}</h3>
                   <p className="text-sm text-white/60 font-mono tracking-tighter">${item.price.toFixed(2)}</p>

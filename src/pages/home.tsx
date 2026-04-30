@@ -14,7 +14,7 @@ export default function Home() {
   const { toast } = useToast()
 
   const handleAddToCart = (product: any) => {
-    addItem({ id: product.id, name: product.name, price: parseFloat(product.price), quantity: 1 })
+    addItem({ id: product.id, name: product.name, price: parseFloat(product.price), quantity: 1, image: product.img })
     toast({
       title: "Added to cart",
       description: `${product.name} has been added to your cart.`,
@@ -143,9 +143,9 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             {[
-              { id: 1, name: "Heavy Knit", price: "240", img: "/product-knit-1.png" },
-              { id: 2, name: "Industrial Denim", price: "180", img: "/product-denim-1.png" },
-              { id: 3, name: "Structured Belt", price: "95", img: "/product-acc-1.png" }
+              { id: 1, name: "Heavy Knit", price: "240", img: "/product-knit-1.png", category: "tops" },
+              { id: 2, name: "Industrial Denim", price: "180", img: "/product-denim-1.png", category: "outerwear" },
+              { id: 3, name: "Structured Belt", price: "95", img: "/product-acc-1.png", category: "accessories" }
             ].map((product, i) => (
               <motion.div
                 key={i}
@@ -185,7 +185,7 @@ export default function Home() {
                   >
                     Add to Cart
                   </Button>
-                  <Link href="/shop" className="w-full">
+                  <Link href={`/shop?category=${product.category}`} className="w-full">
                     <Button variant="ghost" className="w-full text-white/40 hover:text-white transition-colors uppercase tracking-widest text-[10px] py-4">
                       View details
                     </Button>
