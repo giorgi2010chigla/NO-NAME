@@ -1,8 +1,6 @@
 "use client"
 
 import { Nav } from "./nav"
-import { CartDrawer } from "./cart-drawer"
-import { useCart } from "@/lib/cart"
 import { Link, useLocation } from "wouter"
 import { Instagram, Mail, Phone, Twitter } from "lucide-react"
 import { motion } from "framer-motion"
@@ -12,7 +10,6 @@ interface MainLayoutProps {
 }
 
 export function MainLayout({ children }: MainLayoutProps) {
-  const { isOpen, setIsOpen } = useCart()
   const [location] = useLocation()
 
   const underlineVariants = {
@@ -51,7 +48,6 @@ export function MainLayout({ children }: MainLayoutProps) {
       <main className="flex-1 pt-16">
         {children}
       </main>
-      <CartDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
       <footer id="contact" className="border-t border-white/10 bg-black text-white py-24 px-6 md:px-12">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-6">
           <div className="col-span-1 md:col-span-2">
@@ -71,7 +67,10 @@ export function MainLayout({ children }: MainLayoutProps) {
                 <FooterLink href="/shop" active={location === '/shop'}>Shop</FooterLink>
               </li>
               <li>
-                <FooterLink href="#contact" isExternal>Contact</FooterLink>
+                <FooterLink href="/contact" active={location === '/contact'}>Contact</FooterLink>
+              </li>
+              <li>
+                <FooterLink href="/cart" active={location === '/cart'}>Cart</FooterLink>
               </li>
             </ul>
           </div>
@@ -102,7 +101,9 @@ export function MainLayout({ children }: MainLayoutProps) {
             </p>
             <div className="pt-6 flex gap-4">
               <motion.a 
-                href="#" 
+                href="https://instagram.com/noname" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-white/60 transition-colors"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
@@ -110,7 +111,9 @@ export function MainLayout({ children }: MainLayoutProps) {
                 <Instagram className="w-5 h-5" />
               </motion.a>
               <motion.a 
-                href="#" 
+                href="https://twitter.com/noname" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-white/60 transition-colors"
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}

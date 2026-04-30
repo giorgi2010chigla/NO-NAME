@@ -8,6 +8,8 @@ import { MainLayout } from "@/components/layout/main-layout"
 import { AnimatePresence, motion } from "framer-motion"
 import Home from "@/pages/home"
 import Shop from "@/pages/shop"
+import Contact from "@/pages/contact"
+import CartPage from "@/pages/cart"
 import NotFound from "@/pages/not-found"
 
 const queryClient = new QueryClient()
@@ -40,6 +42,8 @@ function Router() {
             <Switch>
               <Route path="/" component={Home} />
               <Route path="/shop" component={Shop} />
+              <Route path="/contact" component={Contact} />
+              <Route path="/cart" component={CartPage} />
               <Route component={NotFound} />
             </Switch>
           </FrozenRoute>
