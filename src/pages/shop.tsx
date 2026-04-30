@@ -61,6 +61,17 @@ const filterVariants = {
   }
 }
 
+const filterContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.2
+    }
+  }
+}
+
 export default function Shop() {
   const { addItem } = useCart()
   const { toast } = useToast()
@@ -136,36 +147,31 @@ export default function Shop() {
             </motion.p>
           </div>
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
+            variants={filterContainerVariants}
+            initial="hidden"
+            animate="visible"
             className="flex gap-8 text-[10px] uppercase tracking-[0.3em] font-medium border-b border-white/10 pb-4 w-full md:w-auto overflow-x-auto whitespace-nowrap"
           >
-            <AnimatePresence mode="wait">
-              {filterCategories.map((cat) => (
-                <motion.button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat.toLowerCase())}
-                  className={`cursor-pointer relative ${
-                    activeCategory === cat.toLowerCase() ? "text-white" : "text-white/40"
-                  }`}
-                  variants={filterVariants}
-                  initial="hidden"
-                  animate="visible"
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  {cat}
-                  {activeCategory === cat.toLowerCase() && (
-                    <motion.div
-                      layoutId="activeFilter"
-                      className="absolute -bottom-[calc(1rem+1px)] left-0 right-0 h-px bg-white"
-                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  )}
-                </motion.button>
-              ))}
-            </AnimatePresence>
+            {filterCategories.map((cat) => (
+              <motion.button
+                key={cat}
+                onClick={() => setActiveCategory(cat.toLowerCase())}
+                className={`cursor-pointer relative pb-4 ${
+                  activeCategory === cat.toLowerCase() ? "text-white" : "text-white/40"
+                }`}
+                variants={filterVariants}
+                whileHover={{ opacity: 1 }}
+              >
+                {cat}
+                {activeCategory === cat.toLowerCase() && (
+                  <motion.div
+                    layoutId="activeFilter"
+                    className="absolute bottom-0 left-0 right-0 h-px bg-white"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </motion.button>
+            ))}
           </motion.div>
         </header>
 

@@ -15,6 +15,36 @@ export function MainLayout({ children }: MainLayoutProps) {
   const { isOpen, setIsOpen } = useCart()
   const [location] = useLocation()
 
+  const underlineVariants = {
+    initial: { width: 0 },
+    hover: { width: "100%" }
+  }
+
+  const FooterLink = ({ href, children, active = false, isExternal = false }: { href: string, children: React.ReactNode, active?: boolean, isExternal?: boolean }) => {
+    const content = (
+      <motion.span
+        initial="initial"
+        whileHover="hover"
+        animate={active ? "hover" : "initial"}
+        className={`relative inline-block cursor-pointer ${active ? 'opacity-100 font-bold' : 'opacity-40 hover:opacity-100'}`}
+      >
+        <span className="relative">
+          {children}
+          <motion.span
+            className="absolute -bottom-1 left-0 h-px bg-white"
+            variants={underlineVariants}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </span>
+      </motion.span>
+    )
+
+    if (isExternal) {
+      return <a href={href}>{content}</a>
+    }
+    return <Link href={href}>{content}</Link>
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Nav />
@@ -33,42 +63,15 @@ export function MainLayout({ children }: MainLayoutProps) {
 
           <div className="space-y-4 text-sm font-medium uppercase tracking-widest">
             <h3 className="text-white/40 mb-6">Navigation</h3>
-            <ul className="space-y-4">
+            <ul className="space-y-4 flex flex-col">
               <li>
-                <Link href="/" className={`relative inline-block ${location === '/' ? 'opacity-100 font-bold' : 'opacity-40'}`}>
-                  <span className="relative">
-                    Home
-                    <motion.span
-                      className="absolute -bottom-1 left-0 w-0 h-px bg-white"
-                      whileHover={{ width: "100%" }}
-                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  </span>
-                </Link>
+                <FooterLink href="/" active={location === '/'}>Home</FooterLink>
               </li>
               <li>
-                <Link href="/shop" className={`relative inline-block ${location === '/shop' ? 'opacity-100 font-bold' : 'opacity-40'}`}>
-                  <span className="relative">
-                    Shop
-                    <motion.span
-                      className="absolute -bottom-1 left-0 w-0 h-px bg-white"
-                      whileHover={{ width: "100%" }}
-                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  </span>
-                </Link>
+                <FooterLink href="/shop" active={location === '/shop'}>Shop</FooterLink>
               </li>
               <li>
-                <a href="#contact" className="relative inline-block opacity-40 cursor-pointer">
-                  <span className="relative">
-                    Contact
-                    <motion.span
-                      className="absolute -bottom-1 left-0 w-0 h-px bg-white"
-                      whileHover={{ width: "100%" }}
-                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  </span>
-                </a>
+                <FooterLink href="#contact" isExternal>Contact</FooterLink>
               </li>
             </ul>
           </div>
@@ -98,12 +101,22 @@ export function MainLayout({ children }: MainLayoutProps) {
               </a>
             </p>
             <div className="pt-6 flex gap-4">
-              <a href="#" className="hover:text-white/60 transition-colors">
+              <motion.a 
+                href="#" 
+                className="hover:text-white/60 transition-colors"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+              >
                 <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="hover:text-white/60 transition-colors">
+              </motion.a>
+              <motion.a 
+                href="#" 
+                className="hover:text-white/60 transition-colors"
+                whileHover={{ scale: 1.1, rotate: -5 }}
+                whileTap={{ scale: 0.9 }}
+              >
                 <Twitter className="w-5 h-5" />
-              </a>
+              </motion.a>
             </div>
           </div>
         </div>
