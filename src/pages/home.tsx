@@ -2,7 +2,7 @@
 
 import { Link } from "wouter"
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
+import { MotionButton } from "@/components/ui/button"
 import { Ticker } from "@/components/ticker"
 import { getAssetPath } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
@@ -20,6 +20,19 @@ export default function Home() {
       description: `${product.name} has been added to your cart.`,
     })
   }
+
+  const buttonVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  }
+
   return (
     <div className="flex flex-col bg-black overflow-hidden">
       {/* Hero Section */}
@@ -55,9 +68,9 @@ export default function Home() {
               </p>
               
               <Link href="/shop">
-                <Button variant="outline" className="px-12 py-8 text-lg border-white hover:bg-white hover:text-black transition-all duration-500">
+                <MotionButton variant="outline" className="px-12 py-8 text-lg border-white hover:bg-white hover:text-black transition-all duration-500">
                   Enter Shop
-                </Button>
+                </MotionButton>
               </Link>
             </div>
           </motion.div>
@@ -127,18 +140,34 @@ export default function Home() {
                   <p className="text-xl font-medium tracking-tighter">${product.price}</p>
                 </div>
                 <div className="mt-6 flex flex-col gap-2">
-                  <Button 
-                    onClick={() => handleAddToCart(product)}
-                    variant="outline" 
-                    className="w-full border-white/20 hover:border-white transition-colors uppercase tracking-widest text-xs py-6"
+                  <motion.div
+                    variants={buttonVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
                   >
-                    Add to Cart
-                  </Button>
-                  <Link href="/shop" className="w-full">
-                    <Button variant="ghost" className="w-full text-white/40 hover:text-white transition-colors uppercase tracking-widest text-[10px] py-4">
-                      View details
-                    </Button>
-                  </Link>
+                    <MotionButton 
+                      onClick={() => handleAddToCart(product)}
+                      variant="outline" 
+                      className="w-full border-white/20 hover:border-white transition-colors uppercase tracking-widest text-xs py-6"
+                    >
+                      Add to Cart
+                    </MotionButton>
+                  </motion.div>
+                  <motion.div
+                    variants={buttonVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
+                  >
+                    <Link href="/shop" className="w-full">
+                      <MotionButton variant="ghost" className="w-full text-white/40 hover:text-white transition-colors uppercase tracking-widest text-[10px] py-4">
+                        View details
+                      </MotionButton>
+                    </Link>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}

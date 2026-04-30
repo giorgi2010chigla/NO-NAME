@@ -5,6 +5,7 @@ import { CartDrawer } from "./cart-drawer"
 import { useCart } from "@/lib/cart"
 import { Link, useLocation } from "wouter"
 import { Instagram, Mail, Phone, Twitter } from "lucide-react"
+import { motion } from "framer-motion"
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -34,18 +35,39 @@ export function MainLayout({ children }: MainLayoutProps) {
             <h3 className="text-white/40 mb-6">Navigation</h3>
             <ul className="space-y-4">
               <li>
-                <Link href="/" className={`hover:opacity-100 transition-opacity ${location === '/' ? 'opacity-100 font-bold' : 'opacity-40'}`}>
-                  Home
+                <Link href="/" className={`relative inline-block ${location === '/' ? 'opacity-100 font-bold' : 'opacity-40'}`}>
+                  <span className="relative">
+                    Home
+                    <motion.span
+                      className="absolute -bottom-1 left-0 w-0 h-px bg-white"
+                      whileHover={{ width: "100%" }}
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  </span>
                 </Link>
               </li>
               <li>
-                <Link href="/shop" className={`hover:opacity-100 transition-opacity ${location === '/shop' ? 'opacity-100 font-bold' : 'opacity-40'}`}>
-                  Shop
+                <Link href="/shop" className={`relative inline-block ${location === '/shop' ? 'opacity-100 font-bold' : 'opacity-40'}`}>
+                  <span className="relative">
+                    Shop
+                    <motion.span
+                      className="absolute -bottom-1 left-0 w-0 h-px bg-white"
+                      whileHover={{ width: "100%" }}
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  </span>
                 </Link>
               </li>
               <li>
-                <a href="#contact" className="opacity-40 hover:opacity-100 transition-opacity cursor-pointer">
-                  Contact
+                <a href="#contact" className="relative inline-block opacity-40 cursor-pointer">
+                  <span className="relative">
+                    Contact
+                    <motion.span
+                      className="absolute -bottom-1 left-0 w-0 h-px bg-white"
+                      whileHover={{ width: "100%" }}
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  </span>
                 </a>
               </li>
             </ul>
