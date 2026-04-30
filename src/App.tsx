@@ -1,3 +1,4 @@
+import { useState, ReactNode } from "react"
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/toaster"
@@ -11,6 +12,17 @@ import NotFound from "@/pages/not-found"
 
 const queryClient = new QueryClient()
 
+function FrozenRoute({ children }: { children: ReactNode }) {
+  const [location] = useLocation()
+  const [frozenLocation] = useState(location)
+
+  return (
+    <WouterRouter hook={() => [frozenLocation, () => {}]}>
+      {children}
+    </WouterRouter>
+  )
+}
+
 function Router() {
   const [location] = useLocation()
 
@@ -22,13 +34,15 @@ function Router() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Switch location={location}>
-            <Route path="/" component={Home} />
-            <Route path="/shop" component={Shop} />
-            <Route component={NotFound} />
-          </Switch>
+          <FrozenRoute>
+            <Switch>
+              <Route path="/" component={Home} />
+              <Route path="/shop" component={Shop} />
+              <Route component={NotFound} />
+            </Switch>
+          </FrozenRoute>
         </motion.div>
       </AnimatePresence>
     </MainLayout>
