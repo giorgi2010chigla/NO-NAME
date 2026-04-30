@@ -4,8 +4,22 @@ import { Link } from "wouter"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Ticker } from "@/components/ticker"
+import { getAssetPath } from "@/lib/utils"
+import { ArrowRight } from "lucide-react"
+import { useCart } from "@/lib/cart"
+import { useToast } from "@/hooks/use-toast"
 
 export default function Home() {
+  const { addItem } = useCart()
+  const { toast } = useToast()
+
+  const handleAddToCart = (product: any) => {
+    addItem({ id: product.id, name: product.name, price: parseFloat(product.price), quantity: 1 })
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+    })
+  }
   return (
     <div className="flex flex-col bg-black overflow-hidden">
       {/* Hero Section */}
@@ -17,7 +31,7 @@ export default function Home() {
           className="absolute inset-0 z-0"
         >
           <img 
-            src="/product-knit-2.png" 
+            src={getAssetPath("/product-knit-2.png")} 
             alt="Hero" 
             className="w-full h-full object-cover grayscale"
           />
@@ -80,11 +94,8 @@ export default function Home() {
       {/* WHAT'S NEW Showcase */}
       <section className="py-32">
         <div className="px-6 md:px-12">
-          <div className="flex justify-between items-end mb-16 gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
             <h2 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter leading-none">WHAT'S NEW</h2>
-            <Link href="/shop" className="text-sm uppercase tracking-widest border-b border-white pb-2 mb-2 md:mb-4 hover:opacity-50 transition-opacity whitespace-nowrap">
-              SEE MORE
-            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -103,7 +114,7 @@ export default function Home() {
               >
                 <div className="aspect-[3/4] overflow-hidden bg-[#0a0a0a] mb-6">
                   <img 
-                    src={product.img} 
+                    src={getAssetPath(product.img)} 
                     alt={product.name}
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
                   />
@@ -115,13 +126,34 @@ export default function Home() {
                   </div>
                   <p className="text-xl font-medium tracking-tighter">${product.price}</p>
                 </div>
-                <Link href="/shop" className="mt-6">
-                  <Button variant="outline" className="w-full border-white/20 hover:border-white transition-colors uppercase tracking-widest text-xs py-6">
-                    View Details
+                <div className="mt-6 flex flex-col gap-2">
+                  <Button 
+                    onClick={() => handleAddToCart(product)}
+                    variant="outline" 
+                    className="w-full border-white/20 hover:border-white transition-colors uppercase tracking-widest text-xs py-6"
+                  >
+                    Add to Cart
                   </Button>
-                </Link>
+                  <Link href="/shop" className="w-full">
+                    <Button variant="ghost" className="w-full text-white/40 hover:text-white transition-colors uppercase tracking-widest text-[10px] py-4">
+                      View details
+                    </Button>
+                  </Link>
+                </div>
               </motion.div>
             ))}
+          </div>
+
+          <div className="mt-24 flex justify-center">
+            <Link href="/shop" className="group flex items-center gap-4 text-xl md:text-2xl font-bold uppercase tracking-[0.3em] border-b-2 border-white pb-4 hover:opacity-50 transition-all">
+              SEE MORE
+              <motion.div
+                animate={{ x: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              >
+                <ArrowRight className="w-8 h-8" />
+              </motion.div>
+            </Link>
           </div>
         </div>
       </section>
@@ -138,7 +170,7 @@ export default function Home() {
               className="relative aspect-[4/5] overflow-hidden"
             >
               <img 
-                src="/product-jacket-1.png" 
+                src={getAssetPath("/product-jacket-1.png")} 
                 alt="Editorial 1" 
                 className="w-full h-full object-cover grayscale brightness-50"
               />
@@ -155,7 +187,7 @@ export default function Home() {
                 className="relative aspect-square overflow-hidden"
               >
                 <img 
-                  src="/product-knit-2.png" 
+                  src={getAssetPath("/product-knit-2.png")} 
                   alt="Editorial 2" 
                   className="w-full h-full object-cover grayscale contrast-125"
                 />

@@ -4,6 +4,7 @@ import { Nav } from "./nav"
 import { CartDrawer } from "./cart-drawer"
 import { useCart } from "@/lib/cart"
 import { Link, useLocation } from "wouter"
+import { Instagram, Mail, Phone, Twitter } from "lucide-react"
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -33,12 +34,12 @@ export function MainLayout({ children }: MainLayoutProps) {
             <h3 className="text-white/40 mb-6">Navigation</h3>
             <ul className="space-y-4">
               <li>
-                <Link href="/" className={`hover:opacity-100 transition-opacity ${location === '/' ? 'opacity-100' : 'opacity-40'}`}>
+                <Link href="/" className={`hover:opacity-100 transition-opacity ${location === '/' ? 'opacity-100 font-bold' : 'opacity-40'}`}>
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/shop" className={`hover:opacity-100 transition-opacity ${location === '/shop' ? 'opacity-100' : 'opacity-40'}`}>
+                <Link href="/shop" className={`hover:opacity-100 transition-opacity ${location === '/shop' ? 'opacity-100 font-bold' : 'opacity-40'}`}>
                   Shop
                 </Link>
               </li>
@@ -62,10 +63,25 @@ export function MainLayout({ children }: MainLayoutProps) {
           
           <div className="space-y-4 text-sm font-medium uppercase tracking-widest">
             <h3 className="text-white/40 mb-6">Contact</h3>
-            <p><a href="mailto:hello@no-name.store" className="hover:opacity-70 transition-opacity">hello@no-name.store</a></p>
-            <p><a href="tel:+74950000000" className="hover:opacity-70 transition-opacity">+7 495 000 00 00</a></p>
-            <div className="pt-4">
-              <p><a href="#" className="hover:opacity-70 transition-opacity">@no.name.conceptstore</a></p>
+            <p>
+              <a href="mailto:hello@no-name.store" className="flex items-center gap-2 hover:opacity-70 transition-opacity lowercase">
+                <Mail className="w-4 h-4" />
+                <span>hello@no-name.store</span>
+              </a>
+            </p>
+            <p>
+              <a href="tel:+74950000000" className="flex items-center gap-2 hover:opacity-70 transition-opacity">
+                <Phone className="w-4 h-4" />
+                <span>+7 495 000 00 00</span>
+              </a>
+            </p>
+            <div className="pt-6 flex gap-4">
+              <a href="#" className="hover:text-white/60 transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="hover:text-white/60 transition-colors">
+                <Twitter className="w-5 h-5" />
+              </a>
             </div>
           </div>
         </div>

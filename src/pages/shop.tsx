@@ -5,6 +5,7 @@ import { useCart } from "@/lib/cart"
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { useToast } from "@/hooks/use-toast"
+import { getAssetPath } from "@/lib/utils"
 
 const products = [
   { id: 1, name: "Heavy Knit Sweater", price: 240, category: "tops", img: "/product-knit-1.png" },
@@ -17,6 +18,11 @@ const products = [
   { id: 8, name: "Modular Shoe", price: 280, category: "footwear", img: "/product-shoe-2.png" },
   { id: 9, name: "Raw Denim", price: 195, category: "outerwear", img: "/product-denim-2.png" },
   { id: 10, name: "Utility Jacket", price: 380, category: "outerwear", img: "/product-jacket-1.png" },
+  { id: 11, name: "Mono Tee", price: 85, category: "tops", img: "/0c2393bf.jpg" },
+  { id: 12, name: "Technical Parka", price: 520, category: "outerwear", img: "/0f632715.jpg" },
+  { id: 13, name: "Leather Pouch", price: 145, category: "accessories", img: "/46aba1cd.jpg" },
+  { id: 14, name: "Desert Runner", price: 310, category: "footwear", img: "/7e0262a3.jpg" },
+  { id: 15, name: "Ribbed Tank", price: 65, category: "tops", img: "/da594d43.jpg" },
 ]
 
 const containerVariants = {
@@ -69,7 +75,7 @@ export default function Shop() {
           className="w-full h-full"
         >
           <img 
-            src="/product-denim-2.png" 
+            src={getAssetPath("/product-denim-2.png")} 
             alt="Shop Hero" 
             className="w-full h-full object-cover grayscale brightness-50"
           />
@@ -155,7 +161,7 @@ export default function Shop() {
               >
                 <div className="aspect-[3/4] overflow-hidden bg-[#0a0a0a]">
                   <img 
-                    src={product.img} 
+                    src={getAssetPath(product.img)} 
                     alt={product.name}
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
                   />
