@@ -4,6 +4,10 @@
   --font-display: "Inter", system-ui, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --background: 0 0% 0%;
   --foreground: 0 0% 100%;

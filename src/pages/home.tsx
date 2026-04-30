@@ -77,49 +77,49 @@ export default function Home() {
 
       <Ticker />
 
-      {/* Featured Grid */}
+      {/* WHAT'S NEW Showcase */}
       <section className="py-32">
         <div className="px-6 md:px-12">
-          <div className="flex justify-between items-end mb-24 gap-4">
-            <h2 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter leading-none">DROPS</h2>
+          <div className="flex justify-between items-end mb-16 gap-4">
+            <h2 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter leading-none">WHAT'S NEW</h2>
             <Link href="/shop" className="text-sm uppercase tracking-widest border-b border-white pb-2 mb-2 md:mb-4 hover:opacity-50 transition-opacity whitespace-nowrap">
-              Explore All
+              Shop All
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-1 bg-white/5 border border-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: "Sculptural Knit", price: "240", img: "/product-knit-1.png" },
-              { name: "Raw Denim", price: "180", img: "/product-denim-1.png" },
-              { name: "Industrial Shoe", price: "320", img: "/product-shoe-1.png" },
-              { name: "Structured Belt", price: "95", img: "/product-acc-1.png" },
-              { name: "Heavy Shell", price: "450", img: "/product-coat-1.png" },
-              { name: "Modular Boot", price: "280", img: "/product-shoe-2.png" }
+              { id: 1, name: "Heavy Knit", price: "240", img: "/product-knit-1.png" },
+              { id: 2, name: "Industrial Denim", price: "180", img: "/product-denim-1.png" },
+              { id: 3, name: "Structured Belt", price: "95", img: "/product-acc-1.png" }
             ].map((product, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: i * 0.2 }}
-                className="group relative aspect-[3/4] overflow-hidden bg-[#0a0a0a]"
+                className="flex flex-col group"
               >
-                <img 
-                  src={product.img} 
-                  alt={product.name}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
-                  <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">{product.name}</h3>
-                    <p className="text-lg tracking-widest mb-6">${product.price}</p>
-                    <Link href="/shop">
-                      <Button className="w-full bg-white text-black hover:bg-black hover:text-white border-white">
-                        View Product
-                      </Button>
-                    </Link>
-                  </div>
+                <div className="aspect-[3/4] overflow-hidden bg-[#0a0a0a] mb-6">
+                  <img 
+                    src={product.img} 
+                    alt={product.name}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+                  />
                 </div>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-xl font-bold uppercase tracking-tighter">{product.name}</h3>
+                    <p className="text-white/40 uppercase tracking-widest text-xs mt-1">Collection 001</p>
+                  </div>
+                  <p className="text-xl font-medium tracking-tighter">${product.price}</p>
+                </div>
+                <Link href="/shop" className="mt-6">
+                  <Button variant="outline" className="w-full border-white/20 hover:border-white transition-colors uppercase tracking-widest text-xs py-6">
+                    View Details
+                  </Button>
+                </Link>
               </motion.div>
             ))}
           </div>

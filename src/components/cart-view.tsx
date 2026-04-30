@@ -2,10 +2,20 @@
 
 import { useCart } from "@/lib/cart"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { useToast } from "@/hooks/use-toast"
 
 export function Cart() {
-  const { items, removeItem, updateQuantity, total } = useCart()
+  const { items, removeItem, updateQuantity, total, clearCart, setIsOpen } = useCart()
+  const { toast } = useToast()
+
+  const handleCheckout = () => {
+    toast({
+      title: "Checkout Successful",
+      description: "Thank you for your purchase. Your order is being processed.",
+    })
+    clearCart()
+    setIsOpen(false)
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -51,7 +61,11 @@ export function Cart() {
           <span className="text-white/60">Subtotal</span>
           <span className="font-bold text-xl">${total.toFixed(2)}</span>
         </div>
-        <Button className="w-full py-8 text-lg font-bold uppercase tracking-[0.2em]" disabled={items.length === 0}>
+        <Button 
+          onClick={handleCheckout}
+          className="w-full py-8 text-lg font-bold uppercase tracking-[0.2em]" 
+          disabled={items.length === 0}
+        >
           Proceed to checkout
         </Button>
       </div>
