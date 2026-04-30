@@ -184,16 +184,19 @@ export default function Shop() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="group relative border-r border-b border-white/10 p-0 overflow-hidden"
+                className="group relative border-r border-b border-white/10 overflow-hidden"
               >
-                <div className="aspect-[3/4] overflow-hidden bg-[#0a0a0a]">
-                  <img 
-                    src={getAssetPath(product.img)} 
-                    alt={product.name}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
-                  />
-                </div>
+                <Link href={`/product/${product.id}`}>
+                  <div className="aspect-[3/4] overflow-hidden bg-[#0a0a0a]">
+                    <img 
+                      src={getAssetPath(product.img)} 
+                      alt={product.name}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+                    />
+                  </div>
+                </Link>
                 
+                {/* Hover overlay with Add to Cart */}
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-90 transition-opacity duration-500 flex flex-col justify-between p-8">
                   <div>
                     <p className="text-[10px] uppercase tracking-[0.4em] text-white/40 mb-2">{product.category}</p>
@@ -208,24 +211,24 @@ export default function Shop() {
                     >
                       ADD TO CART
                     </MotionButton>
-                    <Link href={`/product/${product.id}`} className="w-full block">
-                      <MotionButton
-                        variant="outline"
-                        className="w-full border-white/20 hover:border-white transition-all py-6 uppercase tracking-widest text-[10px]"
-                      >
-                        VIEW DETAILS
-                      </MotionButton>
-                    </Link>
                   </div>
                 </div>
 
-                <div className="p-6 flex justify-between items-center bg-black">
-                   <div className="flex flex-col">
-                      <span className="text-[10px] uppercase tracking-widest text-white/40">{product.category}</span>
-                      <span className="text-sm font-bold uppercase tracking-tighter">{product.name}</span>
-                   </div>
-                   <span className="text-sm font-medium tracking-widest">${product.price}</span>
+                {/* Always visible bottom bar with View Details */}
+                <div className="p-4 flex justify-between items-center bg-black">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase tracking-widest text-white/40">{product.category}</span>
+                    <span className="text-sm font-bold uppercase tracking-tighter">{product.name}</span>
+                  </div>
+                  <span className="text-sm font-medium tracking-widest">${product.price}</span>
                 </div>
+                
+                {/* View Details button - always visible below the card */}
+                <Link href={`/product/${product.id}`} className="w-full block bg-white hover:bg-black hover:text-white transition-all">
+                  <div className="py-3 text-center text-xs uppercase tracking-widest font-bold text-black group-hover:text-white">
+                    View Details
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </AnimatePresence>

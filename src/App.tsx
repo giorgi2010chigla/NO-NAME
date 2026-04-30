@@ -11,6 +11,7 @@ import Shop from "@/pages/shop"
 import Contact from "@/pages/contact"
 import CartPage from "@/pages/cart"
 import ProductDetail from "@/pages/product-detail"
+import Collection from "@/pages/collection"
 import NotFound from "@/pages/not-found"
 
 const queryClient = new QueryClient()
@@ -44,6 +45,7 @@ function Router() {
               <Route path="/" component={Home} />
               <Route path="/shop" component={Shop} />
               <Route path="/product/:id" component={ProductDetail} />
+              <Route path="/collection/:name" component={Collection} />
               <Route path="/contact" component={Contact} />
               <Route path="/cart" component={CartPage} />
               <Route component={NotFound} />

@@ -8,7 +8,7 @@ import { getAssetPath } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import { useCart } from "@/lib/cart"
 import { useToast } from "@/hooks/use-toast"
-import { products } from "@/lib/products"
+import { products, collections } from "@/lib/products"
 
 export default function Home() {
   const { addItem } = useCart()
@@ -99,7 +99,9 @@ export default function Home() {
           transition={{ delay: 1, duration: 0.8 }}
           className="absolute bottom-12 left-6 md:left-12 flex flex-col gap-2"
         >
-          <span className="text-[10px] uppercase tracking-[0.5em] text-white/40">COLLECTION 001</span>
+          <Link href={`/collection/collection-001`}>
+            <span className="text-[10px] uppercase tracking-[0.5em] text-white/40 hover:text-white transition-colors cursor-pointer">COLLECTION 001</span>
+          </Link>
           <span className="text-[10px] uppercase tracking-[0.5em] text-white/40">© 2024 NO-NAME</span>
         </motion.div>
       </section>
@@ -149,18 +151,20 @@ export default function Home() {
                 variants={itemVariants}
                 className="flex flex-col group"
               >
-                <div className="aspect-[3/4] overflow-hidden bg-[#0a0a0a] mb-6 relative">
-                  <img 
-                    src={getAssetPath(product.img)} 
-                    alt={product.name}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
-                  />
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    className="absolute inset-0 bg-black/20 transition-opacity pointer-events-none"
-                  />
-                </div>
+                <Link href={`/product/${product.id}`}>
+                  <div className="aspect-[3/4] overflow-hidden bg-[#0a0a0a] mb-6 relative cursor-pointer">
+                    <img 
+                      src={getAssetPath(product.img)} 
+                      alt={product.name}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+                    />
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      className="absolute inset-0 bg-black/20 transition-opacity pointer-events-none"
+                    />
+                  </div>
+                </Link>
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-xl font-bold uppercase tracking-tighter">{product.name}</h3>
@@ -206,26 +210,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Editorial Section */}
+      {/* Editorial Section - Clickable Collections */}
       <section className="py-32 bg-black">
         <div className="px-6 md:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative aspect-[4/5] overflow-hidden"
-            >
-              <img 
-                src={getAssetPath("/product-jacket-1.png")} 
-                alt="Editorial 1" 
-                className="w-full h-full object-cover grayscale brightness-50"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <h3 className="text-4xl md:text-6xl font-bold uppercase tracking-widest mix-blend-overlay text-white/50">ARCHIVE</h3>
-              </div>
-            </motion.div>
+            {/* Collection 001 - Archive */}
+            <Link href={`/collection/collection-001`}>
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="relative aspect-[4/5] overflow-hidden cursor-pointer group"
+              >
+                <img 
+                  src={getAssetPath("/product-jacket-1.png")} 
+                  alt="Collection 001" 
+                  className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                />
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <h3 className="text-4xl md:text-6xl font-bold uppercase tracking-widest mix-blend-overlay text-white/50 group-hover:text-white/80 transition-all">COLLECTION 001</h3>
+                  <span className="mt-4 text-xs uppercase tracking-[0.3em] text-white/40 group-hover:text-white/60 transition-colors">Click to explore</span>
+                </div>
+              </motion.div>
+            </Link>
+            
             <div className="space-y-12">
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
@@ -252,6 +261,55 @@ export default function Home() {
                 </p>
               </motion.div>
             </div>
+          </div>
+          
+          {/* Collection 002 */}
+          <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-12 order-2 md:order-1">
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="relative aspect-square overflow-hidden"
+              >
+                <img 
+                  src={getAssetPath("/product-denim-1.png")} 
+                  alt="Editorial 3" 
+                  className="w-full h-full object-cover grayscale contrast-125"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="max-w-md"
+              >
+                <p className="text-lg uppercase tracking-widest text-white/40 leading-relaxed">
+                  Technical outerwear for the urban landscape. Built for protection, designed for presence.
+                </p>
+              </motion.div>
+            </div>
+            <Link href={`/collection/collection-002`} className="order-1 md:order-2">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="relative aspect-[4/5] overflow-hidden cursor-pointer group"
+              >
+                <img 
+                  src={getAssetPath("/product-coat-1.png")} 
+                  alt="Collection 002" 
+                  className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                />
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <h3 className="text-4xl md:text-6xl font-bold uppercase tracking-widest mix-blend-overlay text-white/50 group-hover:text-white/80 transition-all">COLLECTION 002</h3>
+                  <span className="mt-4 text-xs uppercase tracking-[0.3em] text-white/40 group-hover:text-white/60 transition-colors">Click to explore</span>
+                </div>
+              </motion.div>
+            </Link>
           </div>
         </div>
       </section>

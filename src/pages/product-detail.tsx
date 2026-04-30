@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useRoute, useLocation, Link } from "wouter"
 import { motion } from "framer-motion"
 import { products } from "@/lib/products"
@@ -17,6 +18,9 @@ export default function ProductDetail() {
 
   const product = products.find((p) => p.id === Number(params?.id))
 
+  const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const [selectedColor, setSelectedColor] = useState<string | null>(null)
+
   if (!product) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -33,6 +37,22 @@ export default function ProductDetail() {
   }
 
   const handleAddToCart = () => {
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      toast({
+        title: "Please select a size",
+        description: "Choose a size before adding to cart.",
+        variant: "destructive"
+      })
+      return
+    }
+    if (product.colors && product.colors.length > 0 && !selectedColor) {
+      toast({
+        title: "Please select a color",
+        description: "Choose a color before adding to cart.",
+        variant: "destructive"
+      })
+      return
+    }
     addItem({ 
       id: product.id, 
       name: product.name, 
@@ -74,7 +94,7 @@ export default function ProductDetail() {
             <img 
               src={getAssetPath(product.img)} 
               alt={product.name}
-              className="w-full h-full object-cover grayscale"
+              className="w-full h-full object-cover"
             />
           </motion.div>
 
@@ -86,7 +106,7 @@ export default function ProductDetail() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <span className="text-[10px] uppercase tracking-[0.5em] text-white/40 mb-4 block">
-                {product.category} / Collection 001
+                {product.category} / {product.collection?.replace('-', ' ').toUpperCase() || 'Collection 001'}
               </span>
               <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-none mb-8">
                 {product.name}
@@ -101,6 +121,50 @@ export default function ProductDetail() {
                   {product.description}
                 </p>
               </div>
+
+              {/* Size Selection */}
+              {product.sizes && product.sizes.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="text-[10px] uppercase tracking-[0.4em] text-white/40 mb-4">Size</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {product.sizes.map((size) => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`min-w-[48px] py-3 px-4 border text-xs uppercase tracking-widest font-bold transition-all ${
+                          selectedSize === size 
+                            ? 'bg-white text-black border-white' 
+                            : 'border-white/20 text-white/60 hover:border-white hover:text-white'
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Color Selection */}
+              {product.colors && product.colors.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="text-[10px] uppercase tracking-[0.4em] text-white/40 mb-4">Color</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {product.colors.map((color) => (
+                      <button
+                        key={color}
+                        onClick={() => setSelectedColor(color)}
+                        className={`py-3 px-6 border text-xs uppercase tracking-widest font-bold transition-all ${
+                          selectedColor === color 
+                            ? 'bg-white text-black border-white' 
+                            : 'border-white/20 text-white/60 hover:border-white hover:text-white'
+                        }`}
+                      >
+                        {color}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="h-px bg-white/10 w-full mb-12" />
 
