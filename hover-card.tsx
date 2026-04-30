@@ -1,28 +1,29 @@
+"use client"
+
 import * as React from "react"
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { Check } from "lucide-react"
+import * as HoverCardPrimitive from "@radix-ui/react-hover-card"
 
 import { cn } from "@/lib/utils"
 
-const Checkbox = React.forwardRef<
-  React.ElementRef<typeof CheckboxPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <CheckboxPrimitive.Root
+const HoverCard = HoverCardPrimitive.Root
+
+const HoverCardTrigger = HoverCardPrimitive.Trigger
+
+const HoverCardContent = React.forwardRef<
+  React.ElementRef<typeof HoverCardPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>
+>(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
+  <HoverCardPrimitive.Content
     ref={ref}
+    align={align}
+    sideOffset={sideOffset}
     className={cn(
-      "grid place-content-center peer h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground",
+      "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
       className
     )}
     {...props}
-  >
-    <CheckboxPrimitive.Indicator
-      className={cn("grid place-content-center text-current")}
-    >
-      <Check className="h-4 w-4" />
-    </CheckboxPrimitive.Indicator>
-  </CheckboxPrimitive.Root>
+  />
 ))
-Checkbox.displayName = CheckboxPrimitive.Root.displayName
+HoverCardContent.displayName = HoverCardPrimitive.Content.displayName
 
-export { Checkbox }
+export { HoverCard, HoverCardTrigger, HoverCardContent }
