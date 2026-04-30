@@ -2,6 +2,7 @@ modules = ["nodejs-20", "web"]
 [agent]
 expertMode = true
 stack = "BEST_EFFORT_FALLBACK"
+integrations = ["javascript_log_in_with_replit:2.0.0", "javascript_database:1.0.0", "replitmail:1.0.0"]
 
 [nix]
 channel = "stable-25_05"
@@ -31,6 +32,11 @@ waitForPort = 5000
 outputType = "webview"
 
 [[ports]]
+localPort = 3001
+externalPort = 3000
+exposeLocalhost = true
+
+[[ports]]
 localPort = 5000
 externalPort = 80
 
@@ -39,6 +45,7 @@ localPort = 5001
 externalPort = 3001
 
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
 publicDir = "dist"
+run = ["npm", "run", "start"]

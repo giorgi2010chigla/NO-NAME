@@ -11,9 +11,20 @@ import Shop from "@/pages/shop"
 import Contact from "@/pages/contact"
 import CartPage from "@/pages/cart"
 import ProductDetail from "@/pages/product-detail"
+import CheckoutPage from "@/pages/checkout"
+import OrderConfirmationPage from "@/pages/order-confirmation"
+import AccountPage from "@/pages/account"
+import OrdersPage from "@/pages/orders"
 import NotFound from "@/pages/not-found"
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 
 function FrozenRoute({ children }: { children: ReactNode }) {
   const [location, setRealLocation] = useLocation()
@@ -46,6 +57,10 @@ function Router() {
               <Route path="/product/:id" component={ProductDetail} />
               <Route path="/contact" component={Contact} />
               <Route path="/cart" component={CartPage} />
+              <Route path="/checkout" component={CheckoutPage} />
+              <Route path="/order-confirmation" component={OrderConfirmationPage} />
+              <Route path="/account" component={AccountPage} />
+              <Route path="/account/orders" component={OrdersPage} />
               <Route component={NotFound} />
             </Switch>
           </FrozenRoute>

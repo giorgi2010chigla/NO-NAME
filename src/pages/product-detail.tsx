@@ -40,7 +40,7 @@ export default function ProductDetail() {
     )
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!selectedSize) {
       toast({
         title: "Select a size",
@@ -55,17 +55,27 @@ export default function ProductDetail() {
       })
       return
     }
-    addItem({
-      id: product.id,
-      name: `${product.name} — ${selectedColor} / ${selectedSize}`,
-      price: product.price,
-      quantity: 1,
-      image: product.img,
-    })
-    toast({
-      title: "Added to cart",
-      description: `${product.name} (${selectedColor}, ${selectedSize}) has been added to your cart.`,
-    })
+    try {
+      await addItem({
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.img,
+        size: selectedSize,
+        color: selectedColor,
+        quantity: 1,
+      })
+      toast({
+        title: "Added to cart",
+        description: `${product.name} (${selectedColor}, ${selectedSize}) has been added to your cart.`,
+      })
+    } catch {
+      toast({
+        title: "Could not add item",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      })
+    }
   }
 
   return (
