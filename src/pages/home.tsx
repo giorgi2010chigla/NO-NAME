@@ -83,7 +83,7 @@ export default function Home() {
           <div className="flex justify-between items-end mb-16 gap-4">
             <h2 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter leading-none">WHAT'S NEW</h2>
             <Link href="/shop" className="text-sm uppercase tracking-widest border-b border-white pb-2 mb-2 md:mb-4 hover:opacity-50 transition-opacity whitespace-nowrap">
-              Shop All
+              SEE MORE
             </Link>
           </div>
 

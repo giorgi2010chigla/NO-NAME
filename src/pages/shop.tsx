@@ -15,6 +15,8 @@ const products = [
   { id: 6, name: "Oversized Shell", price: 450, category: "outerwear", img: "/product-coat-1.png" },
   { id: 7, name: "Cast Silver Ring", price: 120, category: "accessories", img: "/product-acc-2.png" },
   { id: 8, name: "Modular Shoe", price: 280, category: "footwear", img: "/product-shoe-2.png" },
+  { id: 9, name: "Raw Denim", price: 195, category: "outerwear", img: "/product-denim-2.png" },
+  { id: 10, name: "Utility Jacket", price: 380, category: "outerwear", img: "/product-jacket-1.png" },
 ]
 
 const containerVariants = {
