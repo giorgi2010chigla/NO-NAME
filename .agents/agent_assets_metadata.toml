@@ -1,0 +1,38 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "JSKKmfjR465sOimwsHxMh"
+uri = "file://public/product-tee-1.png"
+type = "image"
+title = "mono tee product"
+
+[[generated]]
+id = "2P3r6Br0KjDOeDgKP_JeL"
+uri = "file://public/product-parka-1.png"
+type = "image"
+title = "technical parka product"
+
+[[generated]]
+id = "xbNVtksRbqohubkpQOy32"
+uri = "file://public/product-pouch-1.png"
+type = "image"
+title = "leather pouch product"
+
+[[generated]]
+id = "YLlGItKwkhX7KGYD5JAhw"
+uri = "file://public/product-runner-1.png"
+type = "image"
+title = "desert runner product"
+
+[[generated]]
+id = "Y15LudE74kBzoWcgphML2"
+uri = "file://public/product-tank-1.png"
+type = "image"
+title = "ribbed tank product"
+
+[[generated]]
+id = "z2BuzUY3XSz4tkY93rTAp"
+uri = "file://public/product-jacket-1.png"
+type = "image"
+title = "utility jacket product"

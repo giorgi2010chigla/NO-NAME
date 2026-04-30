@@ -135,7 +135,7 @@ export const products: Product[] = [
     name: "Mono Tee",
     price: 85,
     category: "tops",
-    img: "/0c2393bf.jpg",
+    img: "/product-tee-1.png",
     description:
       "Heavyweight cotton tee with a boxy fit and seamless construction. A fundamental building block for the modern wardrobe.",
     sizes: apparelSizes,
@@ -146,7 +146,7 @@ export const products: Product[] = [
     name: "Technical Parka",
     price: 520,
     category: "outerwear",
-    img: "/0f632715.jpg",
+    img: "/product-parka-1.png",
     description:
       "High-performance parka designed for extreme urban conditions. Insulated with sustainable down-alternative.",
     sizes: outerwearSizes,
@@ -157,7 +157,7 @@ export const products: Product[] = [
     name: "Leather Pouch",
     price: 145,
     category: "accessories",
-    img: "/46aba1cd.jpg",
+    img: "/product-pouch-1.png",
     description: "Minimalist leather pouch with magnetic closure. Perfectly sized for daily essentials.",
     sizes: oneSize,
     colors: leatherColors,
@@ -167,7 +167,7 @@ export const products: Product[] = [
     name: "Desert Runner",
     price: 310,
     category: "footwear",
-    img: "/7e0262a3.jpg",
+    img: "/product-runner-1.png",
     description:
       "Lightweight, breathable runner with a high-traction outsole. Designed for transitions between terrains.",
     sizes: footwearSizes,
@@ -178,7 +178,7 @@ export const products: Product[] = [
     name: "Ribbed Tank",
     price: 65,
     category: "tops",
-    img: "/da594d43.jpg",
+    img: "/product-tank-1.png",
     description:
       "Tight-knit ribbed tank in an elongated silhouette. Features reinforced seams and a soft hand-feel.",
     sizes: apparelSizes,
