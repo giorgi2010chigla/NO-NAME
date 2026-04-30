@@ -1,0 +1,37 @@
+# no name conceptstore
+
+Brutalist editorial fashion site. React + Vite + Tailwind. Static, no backend.
+
+## Deploy to GitHub Pages (one-time setup)
+
+1. **Create a new GitHub repo** (any name, public or private with Pages enabled).
+2. **Push this folder to it:**
+   ```bash
+   git init
+   git add .
+   git commit -m "initial commit"
+   git branch -M main
+   git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO.git
+   git push -u origin main
+   ```
+3. **Enable Pages:** in your repo, go to **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+4. Done. Every push to `main` rebuilds and deploys automatically. Your site will be live at `https://YOUR-USERNAME.github.io/YOUR-REPO/`.
+
+## Local development
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # outputs to ./dist
+npm run preview  # serve the built site locally
+```
+
+## Hosting elsewhere
+
+The build output is plain static files in `dist/`. Drag that folder into Netlify, Vercel, Cloudflare Pages, etc.
+
+If you host at the root of a domain (not a subpath), no config change needed. If you host under a subpath, set the `BASE_PATH` env var at build time, e.g.:
+
+```bash
+BASE_PATH=/my-subpath/ npm run build
+```
