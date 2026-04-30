@@ -3,6 +3,7 @@
 import { Link } from "wouter"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { Ticker } from "@/components/ticker"
 
 export default function Home() {
   return (
@@ -74,6 +75,8 @@ export default function Home() {
         </div>
       </section>
 
+      <Ticker />
+
       {/* Featured Grid */}
       <section className="py-32">
         <div className="px-6 md:px-12">
@@ -88,7 +91,10 @@ export default function Home() {
             {[
               { name: "Sculptural Knit", price: "240", img: "/product-knit-1.png" },
               { name: "Raw Denim", price: "180", img: "/product-denim-1.png" },
-              { name: "Industrial Shoe", price: "320", img: "/product-shoe-1.png" }
+              { name: "Industrial Shoe", price: "320", img: "/product-shoe-1.png" },
+              { name: "Structured Belt", price: "95", img: "/product-acc-1.png" },
+              { name: "Heavy Shell", price: "450", img: "/product-coat-1.png" },
+              { name: "Modular Boot", price: "280", img: "/product-shoe-2.png" }
             ].map((product, i) => (
               <motion.div
                 key={i}
@@ -116,6 +122,56 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Editorial Section */}
+      <section className="py-32 bg-black">
+        <div className="px-6 md:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2 }}
+              className="relative aspect-[4/5] overflow-hidden"
+            >
+              <img 
+                src="/product-jacket-1.png" 
+                alt="Editorial 1" 
+                className="w-full h-full object-cover grayscale brightness-50"
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <h3 className="text-4xl md:text-6xl font-bold uppercase tracking-widest mix-blend-overlay text-white/50">ARCHIVE</h3>
+              </div>
+            </motion.div>
+            <div className="space-y-12">
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1 }}
+                className="relative aspect-square overflow-hidden"
+              >
+                <img 
+                  src="/product-knit-2.png" 
+                  alt="Editorial 2" 
+                  className="w-full h-full object-cover grayscale contrast-125"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="max-w-md"
+              >
+                <p className="text-lg uppercase tracking-widest text-white/40 leading-relaxed">
+                  A study in volume and silhouette. Exploring the boundaries between protection and expression.
+                </p>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>

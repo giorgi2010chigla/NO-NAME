@@ -41,8 +41,43 @@ export default function Shop() {
   const { addItem } = useCart()
 
   return (
-    <div className="min-h-screen bg-black pt-32 pb-64">
-      <div className="px-6 md:px-12">
+    <div className="min-h-screen bg-black pb-64">
+      {/* Visual Hero */}
+      <section className="relative h-[60vh] overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5 }}
+          className="w-full h-full"
+        >
+          <img 
+            src="/product-denim-2.png" 
+            alt="Shop Hero" 
+            className="w-full h-full object-cover grayscale brightness-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+        </motion.div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+           <motion.span 
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: 0.5 }}
+             className="text-[10px] uppercase tracking-[1em] text-white/40 mb-6"
+           >
+             Collection 001
+           </motion.span>
+           <motion.h2 
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: 0.7 }}
+             className="text-4xl md:text-6xl font-bold uppercase tracking-tighter"
+           >
+             PERPETUAL FORM
+           </motion.h2>
+        </div>
+      </section>
+
+      <div className="px-6 md:px-12 pt-24">
         <header className="mb-24 flex flex-col md:flex-row justify-between items-end gap-12">
           <div className="max-w-2xl">
             <motion.h1 
