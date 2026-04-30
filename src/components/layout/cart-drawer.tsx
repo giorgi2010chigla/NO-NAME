@@ -1,7 +1,7 @@
 "use client"
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
-import { Cart } from "./cart"
+import { Cart } from "../cart-view"
 
 interface CartDrawerProps {
   isOpen: boolean
